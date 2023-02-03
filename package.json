@@ -1,0 +1,15 @@
+{
+  "dependencies": {
+    "@mongodb-js/zstd": "^1.0.0",
+    "aws4": "^1.11.0",
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "braces": "^3.0.0",
+    "browserify": "^17.0.0",
+    "bson-ext": "^4.0.3",
+    "glob-parent": "^5.1.2",
+    "kerberos": "^2.0.1",
+    "mongodb": "^4.13.0",
+    "snappy": "^7.2.2"
+  }
+}
