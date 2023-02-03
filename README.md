@@ -33,11 +33,13 @@ One way to implement SSL pinning when the client is a web browser is to include 
 
 Another way to implement SSL pinning when the client is a web browser is to use _dynamic pinning_. This approach, also known as a _Certificate and Public Key Pinning_ typically takes place during the _SSL/TLS Handshake_, involves the web application dynamically obtaining the SSL certificate from the server and then comparing the certificate to one previously obtained and stored locally on in the browser. If the certificate obtained from the server matches the previously obtained certificate, the web application proceeds with the SSL/TLS handshake. Otherwise, the web application terminates the connection.
 
-Static pinning is generally considered to be less flexible and more difficult to update than dynamic pinning.
+Static pinning is generally considered to be less flexible and more difficult to update than dynamic pinning, albeit more secure as there is no need to store the certificate locally, it comes with the application bundle.
 
-Certificate Pinning Extension for HTTP and Public Key Pinning Extension for HTTP (HPKP) are obsolete and should not be used.
+_Certificate Pinning Extension for HTTP_ and _Public Key Pinning Extension for HTTP_ (HPKP) are obsolete and should not be used.
 
-Similar certificate-level encryption can be achieve with a custom implementation using the standard WebCrypto API primitives. This can only be achieve after an initial secure handshake with the server using HTTPS (which can be intercepted by the proxy), and then the client can use the server's public key to encrypt the data. This is not the case of SSL-pinning, which is done as an initial handshake (hence secure regarding proxy interception). This approach is should be reserved for security experts and is not recommended for most developers, as security mechanism implementations is the most common cause of cybersecurity vulnerabilities.
+Similar certificate-level encryption can be achieve with a custom implementation using the standard _WebCrypto API_ primitives. This can only be achieved after an initial secure handshake with the server using HTTPS (which can still be intercepted by the proxy), and then the client can use the server's public key to encrypt the data. This is not the case of SSL-pinning, which is done as an initial handshake (hence secure regarding proxy interception). This approach is low-level, quite complex, and should be reserved for security experts. _It is not recommended for most developers, remember erroneous security mechanism implementations is the most common cause of cybersecurity vulnerabilities._
+
+As a side node, it is worth mentioning that SSL-pinning, in addition to securing the connection, allow for symetric encryption of the data, which is more efficient than asymmetric encryption. Symetric encryption means that the same key is used to encrypt and decrypt the data, whereas in asymmetric encryption, the data is encrypted with a public key and decrypted with a private key.
 
 You can learn more about SSL pinning in the browser [here](https://www.owasp.org/index.php/Certificate_and_Public_Key_Pinning).
 
@@ -67,7 +69,7 @@ main.ts is the main middleware for the Node.js server application. It uses the E
 
 ## Workflow checklist
 
-1. Make sure that MongoDB is running and create the 'graphDB' database and 'nodes' collection:
+1. Make sure that MongoDB is running and create the 'graphDB' database and 'nodes' collection (check it is actually listening with `netstat -an | grep 27017` or `lsof -i :27017`, and yes, lsof is the best at everything)
 
 2. Install and/or update the dependencies using NPM
 
@@ -75,6 +77,6 @@ main.ts is the main middleware for the Node.js server application. It uses the E
 
 4. Code and dependencies are bundled using Browserify
 
-5. Express server is running and listening on port 3000
+5. Express server is running and listening on port 3000 (again, check it is actually listening with `netstat -an | grep 3000` or `lsof -i :3000`)
 
-6. Run the Proxyman script to send HTTP POST requests to the server
+6. Run the Proxyman script to send HTTP POST requests to the server (check Proxyman scripting tool console for debugging)
