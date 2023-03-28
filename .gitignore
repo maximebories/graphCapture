@@ -1,3 +1,4 @@
 node_modules
 .jshintrc
 .prettierrc
+.DS_Store
